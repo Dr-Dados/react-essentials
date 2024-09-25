@@ -1,12 +1,12 @@
 import React from "react";
 
-const TabButton = ({ children, onClick, isSelected }) => {
+const TabButton = ({ children, onSelect, isSelected }) => {
   return (
     <li>
       <button
         className={isSelected ? "active" : null}
         onClick={() => {
-          onClick(children);
+          onSelect(children);
         }}
       >
         {children}

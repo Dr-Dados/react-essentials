@@ -8,12 +8,10 @@ function App() {
   return (
     <>
       <Header />
-      <div>
         <main>
           <CoreConcepts />
           <Examples />
         </main>
-      </div>
     </>
   );
 }

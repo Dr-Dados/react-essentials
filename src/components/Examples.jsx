@@ -1,55 +1,66 @@
 import { useState } from "react";
 import { EXAMPLES } from "../data";
 import TabButton from "./TabButton";
+import Section from "./Section";
+import Tabs from "./Tabs";
 
 const Examples = () => {
-  const [selectedTopic, setSelectedTopic] = useState("");
-  function clickHandler(selectedBtn) {
-    setSelectedTopic(selectedBtn);
+  const [selectedTopic, setSelectedTopic] = useState("components");
+  function handleSelect(selectedButton) {
+    // selectedButton => 'components', 'jsx', 'props', 'state'
+    setSelectedTopic(selectedButton);
+    // console.log(selectedTopic);
+  }
+
+  let tabContent = <p>Please select a topic.</p>;
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    );
   }
   return (
     <section id="examples">
       <h2>Examples</h2>
-      <menu>
-        <TabButton
-          onClick={clickHandler}
-          isSelected={selectedTopic === EXAMPLES.components.title}
-        >
-          {EXAMPLES.components.title}
-        </TabButton>
-        <TabButton
-          onClick={clickHandler}
-          isSelected={selectedTopic === EXAMPLES.jsx.title}
-        >
-          {EXAMPLES.jsx.title}
-        </TabButton>
-        <TabButton
-          onClick={clickHandler}
-          isSelected={selectedTopic === EXAMPLES.props.title}
-        >
-          {EXAMPLES.props.title}
-        </TabButton>
-        <TabButton
-          onClick={clickHandler}
-          isSelected={selectedTopic === EXAMPLES.state.title}
-        >
-          {EXAMPLES.state.title}
-        </TabButton>
-      </menu>
-
-      <div id="tab-content">
-        {selectedTopic ? (
+      <Tabs
+        buttons={
           <>
-            <h3>{selectedTopic}</h3>
-            <p>{EXAMPLES[selectedTopic?.toLowerCase()].description}</p>
-            <pre>
-              <code>{EXAMPLES[selectedTopic.toLowerCase()].code}</code>
-            </pre>
+            <TabButton
+              isSelected={selectedTopic === "components"}
+              onSelect={() => handleSelect("components")}
+            >
+              Components
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === "jsx"}
+              onSelect={() => handleSelect("jsx")}
+            >
+              JSX
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === "props"}
+              onSelect={() => handleSelect("props")}
+            >
+              Props
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === "state"}
+              onSelect={() => handleSelect("state")}
+            >
+              State
+            </TabButton>
           </>
-        ) : (
-          <h3>Please select a topic</h3>
-        )}
-      </div>
+        }
+      >
+        {tabContent}
+      </Tabs>
+      <menu></menu>
     </section>
   );
 };
